@@ -1,4 +1,3 @@
-# ss
-Shell Spreadsheet
+# ss (Shell Spreadsheet)
 
 A command line spreadsheet 
