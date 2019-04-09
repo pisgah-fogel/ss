@@ -1,2 +1,4 @@
 # ss
-Shell Spreadsheet Command line spreadsheet 
+Shell Spreadsheet
+
+A command line spreadsheet 
