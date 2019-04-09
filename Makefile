@@ -1,7 +1,7 @@
 all: main.o input.o
 	g++ *.o -o ss
 
-main.o:
+main:
 	g++ -c main.cpp -o main.o
 
 input:

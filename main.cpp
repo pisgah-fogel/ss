@@ -121,6 +121,12 @@ ss::position parsePosition(std::string str)
 	return pos;
 }
 
+std::string computeFunction(std::string str)
+{
+	std::string result;
+	return result;
+}
+
 int main (int argc, char** argv)
 {
 	std::map<ss::position, ss::cell> mMap; // lignes and columns (alphabetics)
@@ -153,7 +159,10 @@ int main (int argc, char** argv)
 							std::cout<<"Cell remplaced"<<std::endl;
 						else
 							std::cout<<"Cell created"<<std::endl;
-						mMap[pos] = ss::cell("Function", splitted[2]);
+						if (splitted[2][0] == '=')
+							mMap[pos] = ss::cell("Function", splitted[2]);
+						else
+							mMap[pos] = ss::cell("String", splitted[2]);
 					} else
 						std::cout<<"Bad position "<<splitted[1]<<std::endl;
 				}
@@ -168,6 +177,33 @@ int main (int argc, char** argv)
 						ss::position pos = parsePosition(splitted[1]);
 						if (mMap.find(pos) != mMap.end())
 							std::cout<<"["<<splitted[1]<<"] "<<mMap[pos].first<<" - "<<mMap[pos].second<<std::endl;
+						else
+							std::cout<<"No cell "<<splitted[1]<<" found"<<std::endl;
+					} else
+						std::cout<<"Bad position "<<splitted[1]<<std::endl;
+				}
+			}
+			else if (splitted.size() > 0 && splitted[0] == "run") {
+				if (splitted.size() == 1)
+					std::cout<<"Not enough arguments for run"<<std::endl;
+				else if (splitted.size() > 2)
+					std::cout<<"Too many arguments for run"<<std::endl;
+				else {
+					if (isValidPosition(splitted[1])) {
+						ss::position pos = parsePosition(splitted[1]);
+						if (mMap.find(pos) != mMap.end()) {
+							std::string type = mMap[pos].first;
+							if (type == "Function")
+								std::cout<<computeFunction(mMap[pos].second)<<std::endl;
+							else if (type == "String")
+								std::cout<<"\""<<mMap[pos].second<<"\""<<std::endl;
+							else if (type == "Integer")
+								std::cout<<"Int: "<<mMap[pos].second<<std::endl;
+							else if (type == "Float")
+								std::cout<<"Float: "<<mMap[pos].second<<std::endl;
+							else
+								std::cout<<"[Unknown]: "<<mMap[pos].second<<std::endl;
+						}
 						else
 							std::cout<<"No cell "<<splitted[1]<<" found"<<std::endl;
 					} else
