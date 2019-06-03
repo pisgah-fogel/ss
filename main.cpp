@@ -21,9 +21,10 @@
 #include <stdlib.h> // strtoul
 
 #include "config.h"
+#include "commands/help.h"
 
 #ifdef CUSTOM
-#include "input.h"
+#include "utils/input.h"
 #endif
 
 std::vector<std::string> splitCmd(std::string str)
@@ -163,9 +164,13 @@ int main (int argc, char** argv)
 							mMap[pos] = ss::cell("Function", splitted[2]);
 						else
 							mMap[pos] = ss::cell("String", splitted[2]);
+						// TODO tag value as Float or integer if ...
 					} else
 						std::cout<<"Bad position "<<splitted[1]<<std::endl;
 				}
+			}
+			else if (splitted.size() > 0 && splitted[0] == "help") {
+				cmd::help(splitted);
 			}
 			else if (splitted.size() > 0 && splitted[0] == "get") {
 				if (splitted.size() == 1)

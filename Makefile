@@ -1,13 +1,16 @@
-all: main.o input.o
-	g++ *.o -o ss
+all: main input help
+	g++ build/*.o -o ss
 
 main:
-	g++ -c main.cpp -o main.o
+	mkdir build
+	g++ -c main.cpp -o build/main.o
 
 input:
-	g++ -c input.cpp -o input.o
+	g++ -c utils/input.cpp -o build/input.o
+
+help:
+	g++ -c commands/help.cpp -o build/help.o
 
 clean:
+	rm -r build
 	rm ss
-	rm main.o
-	rm input.o
