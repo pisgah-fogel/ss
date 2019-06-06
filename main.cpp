@@ -27,6 +27,54 @@
 #include "utils/input.h"
 #endif
 
+
+/**
+ * @brief check if a string can be a function
+ *
+ * Functions starts with '='
+ * 
+ * @param str string to check format
+ * @return true string is a function
+ * @return false string is not a function
+ */
+bool is_string_function(std::string &str) {
+	return str.size() > 0 && str[0] == '=';
+}
+
+/**
+ * @brief Check if a string can be an integer
+ * 
+ * Integer contains characters 0-9
+ *
+ * @param str string to check format
+ * @return true string is an integer
+ * @return false  string is not an integer
+ */
+bool is_string_int(std::string &str) {
+	for (auto it = str.begin(); it != str.end(); it++) {
+		if (*it < '0' || *it > '9')
+			return false;
+	}
+	return true;
+}
+
+/**
+ * @brief Check if a string is a float
+ *
+ * Floats contains character 0-9.
+ * 
+ * @param str 
+ * @return true 
+ * @return false 
+ */
+bool is_string_float(std::string &str) {
+	for (auto it = str.begin(); it != str.end(); it++) {
+		if ((*it < '0' || *it > '9') && *it != '.')
+			return false;
+	}
+	return true;
+}
+
 std::vector<std::string> splitCmd(std::string str)
 {
 	std::vector<std::string> splitted;
@@ -88,7 +136,7 @@ bool isValidPosition(std::string str)
 		it++;
 	}
 	while(it != str.end()){
-		if (*it < '1' || *it > '9')
+		if (*it < '0' || *it > '9')
 			return false; // bad format
 		it++;
 	}
@@ -160,8 +208,12 @@ int main (int argc, char** argv)
 							std::cout<<"Cell remplaced"<<std::endl;
 						else
 							std::cout<<"Cell created"<<std::endl;
-						if (splitted[2][0] == '=')
+						if (is_string_function(splitted[2]))
 							mMap[pos] = ss::cell("Function", splitted[2]);
+						else if (is_string_float(splitted[2]))
+							mMap[pos] = ss::cell("Float", splitted[2]);
+						else if (is_string_int(splitted[2]))
+							mMap[pos] = ss::cell("Integer", splitted[2]);
 						else
 							mMap[pos] = ss::cell("String", splitted[2]);
 						// TODO tag value as Float or integer if ...
