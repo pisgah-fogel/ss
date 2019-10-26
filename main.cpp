@@ -22,6 +22,7 @@
 
 #include "config.h"
 #include "commands/help.h"
+#include "commands/run.h"
 
 #ifdef CUSTOM
 #include "utils/input.h"
@@ -157,8 +158,9 @@ ss::position parsePosition(std::string str)
 		it++;
 	}
 	while(it != str.end()){
-		if (*it < '1' || *it > '9') {
+		if (*it < '0' || *it > '9') {
 			std::cout<<"Error: bad position format, this is a critical warning"<<std::endl;
+			std::cout<<"Example of position: A0 Z9 AA0 Z99 ..."<<std::endl;
 			return ss::position(0, ""); // bad format
 		}
 		else
@@ -168,12 +170,6 @@ ss::position parsePosition(std::string str)
 	pos = ss::position(strtoul(lign.c_str(), NULL, 10), col);
 
 	return pos;
-}
-
-std::string computeFunction(std::string str)
-{
-	std::string result;
-	return result;
 }
 
 int main (int argc, char** argv)
@@ -251,7 +247,7 @@ int main (int argc, char** argv)
 						if (mMap.find(pos) != mMap.end()) {
 							std::string type = mMap[pos].first;
 							if (type == "Function")
-								std::cout<<computeFunction(mMap[pos].second)<<std::endl;
+								std::cout<<run(mMap[pos].second)<<std::endl;
 							else if (type == "String")
 								std::cout<<"\""<<mMap[pos].second<<"\""<<std::endl;
 							else if (type == "Integer")
