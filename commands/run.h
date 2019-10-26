@@ -8,6 +8,7 @@
 enum ContexType
 {
 	None,
+	EntryPoint,
 	InBrackets, // ()
 	InFunctionArgument, // ()
 	InCurlyBrackets, // {}
@@ -84,13 +85,38 @@ enum ConcatenationType
 
 std::string run(std::string str)
 {
-	std::string result;
-	std::cout<<"Not yet implemented"<<std::endl;
+	if (str.at(0) != "=") {
+		std::cout<<"This is not a function, it doesn't start with '='"<<std::endl;
+		return str;
+	}
 	
 	std::string concat = "";
 	ConcatenationType concatType = None;
+	Context *current = nullptr;
 	for (char &c: str) {
+		concat += c;
+		if (c>='a' && c<='z' || c>='A' && c<='Z' || c == '_') {
+		} else if (c == "=") {
+			if (current == nullptr) {
+				// Create EntryPoint
+				current = createContext(nullptr, nullptr, nullptr, nullptr, concat, EntryPoint);
+				concat.clear();
+			} else {
+				// Add a neighbor 
+				Context *tmp = createContex(nullptr, nullptr, nullptr, nullptr, concat, None);
+				tmp->previous = current;
+				current->next = tmp;
+				current = tmp;
+				concat.clear();
+			}
+		} else if (c>='0' && c<='9') {
+		} else {
+			std::cout<<"Character '"<<c<<"' not expected"<<std::endl;
+		}
 	}
+	std::string result;
+
+	// TODO set result
 	
 	freeAllContexts();
 	return result;
