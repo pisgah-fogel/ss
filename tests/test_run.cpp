@@ -26,10 +26,18 @@ bool randomInt() {
 }
 
 // TODO: Add a seed command line parameter
-int main()
+int main(int argc, char **argv)
 {
 	unsigned int errors = 0;
 	int seed = time(0);
+	if (argc == 2) {
+		try {
+			int seed = std::stoi(argv[1])
+		} catch (...) {
+			std::cout<<argv[1]<<" is not a valid Seed: Using a time(0)"std::endl;
+		}
+	}	
+	
 	srand(seed);
 	std::cout<<"Info: Seed="<<seed<<std::endl;
 
